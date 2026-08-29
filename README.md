@@ -2,6 +2,21 @@
 
 GamePulse is a production-ready backend service built with FastAPI, SQLAlchemy, and MySQL 8. It supports player registration, authentication, match management, scoring, and leaderboards.
 
+## Architecture
+
+The system uses a layered architecture with Redis caching for performance and MySQL as the primary data store. The application is resilient to cache failures and will automatically fallback to querying the database directly.
+
+```mermaid
+graph TD
+    Client -->|API Requests| FastAPI[FastAPI Backend]
+    FastAPI -->|Score Update / Invalidate| Redis[(Redis Cache)]
+    FastAPI -->|Check Cache| Redis
+    Redis -- "Hit" --> FastAPI
+    Redis -- "Miss / Error" --> MySQL[(MySQL 8)]
+    MySQL --> FastAPI
+    FastAPI -->|Set Cache| Redis
+```
+
 ## Features
 
 - **Player Management**: Register and login using JWT.
@@ -9,7 +24,8 @@ GamePulse is a production-ready backend service built with FastAPI, SQLAlchemy, 
 - **Scoring**: Update player scores within a match.
 - **Leaderboard**: View top players across all matches.
 - **Event Tracking**: Internal tracking of game events (registration, login, matches, scores).
-- **Structured Logging**: JSON-formatted logging for easy log aggregation.
+- **Caching Layer**: Redis caching for leaderboards and active player statistics.
+- **Structured Logging**: JSON-formatted logging for easy log aggregation with cache hit/miss statuses.
 
 ## Requirements
 
@@ -27,7 +43,7 @@ GamePulse is a production-ready backend service built with FastAPI, SQLAlchemy, 
    ```bash
    docker compose up --build
    ```
-   This will start both the FastAPI backend and the MySQL database. The database will automatically initialize using the `schema.sql` file.
+   This will start the FastAPI backend, MySQL database, and Redis cache. The database will automatically initialize using the `schema.sql` file.
 
 3. **Verify Health**:
    Visit [http://localhost:8000/health](http://localhost:8000/health) to ensure the service is up and connected to the database.

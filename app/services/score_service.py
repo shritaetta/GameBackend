@@ -3,6 +3,7 @@ from fastapi import HTTPException
 from app.schemas.score import ScoreUpdate
 from app.repositories.score_repo import ScoreRepository
 from app.repositories.game_event_repo import GameEventRepository
+from app.core.redis import get_cache, set_cache, delete_cache
 
 class ScoreService:
     def __init__(self, db: Session):
@@ -19,7 +20,14 @@ class ScoreService:
         self.event_repo.record_event("score_update", player_id, score_in.match_id, details)
         
         self.db.commit()
+        delete_cache("leaderboard")
         return score
 
     def get_leaderboard(self):
-        return self.score_repo.get_leaderboard()
+        cached_leaderboard = get_cache("leaderboard")
+        if cached_leaderboard is not None:
+            return cached_leaderboard
+        
+        leaderboard = self.score_repo.get_leaderboard()
+        set_cache("leaderboard", leaderboard, ex=60)
+        return leaderboard

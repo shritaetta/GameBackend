@@ -1,5 +1,7 @@
 from sqlalchemy.orm import Session
+from sqlalchemy import func
 from app.models.player import Player
+from app.models.match_player import MatchPlayer
 from app.schemas.player import PlayerCreate
 from app.core.security import get_password_hash
 
@@ -22,3 +24,6 @@ class PlayerRepository:
         self.db.add(db_player)
         self.db.flush() # Flush to get ID, caller will commit
         return db_player
+
+    def get_active_player_count(self):
+        return self.db.query(func.count(func.distinct(MatchPlayer.player_id))).scalar()

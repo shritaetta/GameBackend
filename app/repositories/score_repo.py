@@ -27,4 +27,4 @@ class ScoreRepository:
             .limit(limit)
             .all()
         )
-        return [{"player_id": r[0], "username": r[1], "total_score": r[2] or 0} for r in results]
+        return [{"player_id": r[0], "username": r[1], "total_score":int(r[2] or 0)} for r in results]

@@ -4,6 +4,7 @@ from .matches import router as matches_router
 from .scores import router as scores_router
 from .leaderboard import router as leaderboard_router
 from .health import router as health_router
+from .stats import router as stats_router
 
 api_router = APIRouter()
 api_router.include_router(auth_router, prefix="/auth", tags=["auth"])
@@ -11,6 +12,7 @@ api_router.include_router(matches_router, prefix="/matches", tags=["matches"])
 api_router.include_router(scores_router, prefix="/scores", tags=["scores"])
 api_router.include_router(leaderboard_router, prefix="/leaderboard", tags=["leaderboard"])
 api_router.include_router(health_router, prefix="/health", tags=["health"])
+api_router.include_router(stats_router, prefix="/stats", tags=["stats"])
 
 # To satisfy the "GET /players/me" without auth prefix requirement, 
 # although it's in auth_router, we can also expose it at /players if needed, 

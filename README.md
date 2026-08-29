@@ -58,6 +58,14 @@ GamePulse exports custom metrics to Prometheus, which are visualized via Grafana
 - **Prometheus UI**: [http://localhost:9090](http://localhost:9090)
 - **Raw Metrics**: [http://localhost:8000/metrics](http://localhost:8000/metrics)
 
+## Load Testing
+
+GamePulse includes a Locust load testing suite that simulates realistic player behavior. 
+To run load tests:
+1. Ensure the `locust` service is running via Docker Compose.
+2. Visit the Locust Web UI at [http://localhost:8089](http://localhost:8089).
+3. Start the test. Test results will be automatically exported as CSV files (`stats_requests.csv`, `stats_failures.csv`, `stats_stats.csv`) in the `load_tests/` directory.
+
 ## Testing
 
 To run the smoke tests locally, you need a Python environment with `pytest` installed:

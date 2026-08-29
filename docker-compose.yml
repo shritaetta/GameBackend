@@ -59,3 +59,13 @@ services:
       - ./monitoring/dashboards:/etc/grafana/provisioning/dashboards
     depends_on:
       - prometheus
+
+  locust:
+    image: locustio/locust
+    ports:
+      - "8089:8089"
+    volumes:
+      - ./load_tests:/mnt/locust
+    command: -f /mnt/locust/locustfile.py --host=http://backend:8000 --csv=/mnt/locust/stats
+    depends_on:
+      - backend

@@ -4,6 +4,7 @@ from app.schemas.score import ScoreUpdate
 from app.repositories.score_repo import ScoreRepository
 from app.repositories.game_event_repo import GameEventRepository
 from app.core.redis import get_cache, set_cache, delete_cache
+from app.core.metrics import gamepulse_score_updates_total
 
 class ScoreService:
     def __init__(self, db: Session):
@@ -18,6 +19,7 @@ class ScoreService:
         
         details = {"increment": score_in.score, "new_total": score.score}
         self.event_repo.record_event("score_update", player_id, score_in.match_id, details)
+        gamepulse_score_updates_total.inc()
         
         self.db.commit()
         delete_cache("leaderboard")

@@ -22,7 +22,7 @@ def get_cache(key: str) -> Optional[Any]:
 
 def set_cache(key: str, value: Any, ex: int = 60) -> bool:
     try:
-        redis_client.set(key, json.dumps(value,default=str), ex=ex)
+        redis_client.set(key, json.dumps(value), ex=ex)
         return True
     except (redis.exceptions.RedisError, ConnectionError) as e:
         logger.error(f"Redis set error: {str(e)}", extra={"cache_key": key})

@@ -51,6 +51,13 @@ graph TD
 4. **Access the API Documentation**:
    Visit [http://localhost:8000/docs](http://localhost:8000/docs) to access the interactive Swagger UI.
 
+## Monitoring
+
+GamePulse exports custom metrics to Prometheus, which are visualized via Grafana. You can monitor the application by visiting:
+- **Grafana Dashboard**: [http://localhost:3000](http://localhost:3000) (Login with `admin` / `admin`)
+- **Prometheus UI**: [http://localhost:9090](http://localhost:9090)
+- **Raw Metrics**: [http://localhost:8000/metrics](http://localhost:8000/metrics)
+
 ## Testing
 
 To run the smoke tests locally, you need a Python environment with `pytest` installed:

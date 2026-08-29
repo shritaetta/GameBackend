@@ -5,6 +5,7 @@ from app.repositories.player_repo import PlayerRepository
 from app.repositories.game_event_repo import GameEventRepository
 from app.core.security import verify_password, create_access_token
 from app.core.redis import get_cache, set_cache
+from app.core.metrics import gamepulse_active_players
 
 class PlayerService:
     def __init__(self, db: Session):
@@ -47,8 +48,10 @@ class PlayerService:
     def get_active_player_count(self):
         cached_count = get_cache("active_players")
         if cached_count is not None:
+            gamepulse_active_players.set(cached_count)
             return cached_count, "hit"
         
         count = self.player_repo.get_active_player_count()
         set_cache("active_players", count, ex=60)
+        gamepulse_active_players.set(count)
         return count, "miss"

@@ -3,6 +3,7 @@ from fastapi import HTTPException
 from app.schemas.match import MatchCreate
 from app.repositories.match_repo import MatchRepository
 from app.repositories.game_event_repo import GameEventRepository
+from app.core.metrics import gamepulse_matches_created_total
 
 class MatchService:
     def __init__(self, db: Session):
@@ -13,6 +14,7 @@ class MatchService:
     def create_match(self, match_in: MatchCreate, player_id: int):
         match = self.match_repo.create_match(match_in)
         self.event_repo.record_event("match_creation", player_id, match.id)
+        gamepulse_matches_created_total.inc()
         self.db.commit()
         return match
 

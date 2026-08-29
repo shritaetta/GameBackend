@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  backend:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=mysql+pymysql://gamepulse_user:gamepulse_password@mysql:3306/gamepulse
+      - SECRET_KEY=09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7
+    depends_on:
+      mysql:
+        condition: service_healthy
+    volumes:
+      - ./app:/app/app
+
+  mysql:
+    image: mysql:8
+    environment:
+      - MYSQL_DATABASE=gamepulse
+      - MYSQL_USER=gamepulse_user
+      - MYSQL_PASSWORD=gamepulse_password
+      - MYSQL_ROOT_PASSWORD=root_password
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      timeout: 20s
+      retries: 10

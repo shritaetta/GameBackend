@@ -1,91 +1,209 @@
-# GamePulse
+# 🎮 GamePulse — Resilient Multiplayer Game Backend
 
-GamePulse is a production-ready backend service built with FastAPI, SQLAlchemy, and MySQL 8. It supports player registration, authentication, match management, scoring, and leaderboards.
+<div align="center">
 
-## Architecture
+[![Python](https://img.shields.io/badge/Python-3.12-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.110+-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
+[![SQLAlchemy](https://img.shields.io/badge/SQLAlchemy-2.0-D71F00?style=for-the-badge&logo=python&logoColor=white)](https://www.sqlalchemy.org/)
+[![MySQL](https://img.shields.io/badge/MySQL-8.0-4479A1?style=for-the-badge&logo=mysql&logoColor=white)](https://www.mysql.com/)
+[![Redis](https://img.shields.io/badge/Redis-7.0-DC382D?style=for-the-badge&logo=redis&logoColor=white)](https://redis.io/)
+[![Prometheus](https://img.shields.io/badge/Prometheus-Metrics-E6522C?style=for-the-badge&logo=prometheus&logoColor=white)](https://prometheus.io/)
+[![Grafana](https://img.shields.io/badge/Grafana-Dashboards-F46800?style=for-the-badge&logo=grafana&logoColor=white)](https://grafana.com/)
+[![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
+[![Locust](https://img.shields.io/badge/Locust-Load_Testing-000000?style=for-the-badge&logo=python&logoColor=white)](https://locust.io/)
 
-The system uses a layered architecture with Redis caching for performance and MySQL as the primary data store. The application is resilient to cache failures and will automatically fallback to querying the database directly.
+**A FastAPI backend for multiplayer game telemetry — players, matches, scoring, and a cached leaderboard — built with a fail-open Redis cache, chaos-tested MySQL resilience, and full Prometheus/Grafana observability.**
 
-```mermaid
-graph TD
-    Client -->|API Requests| FastAPI[FastAPI Backend]
-    FastAPI -->|Score Update / Invalidate| Redis[(Redis Cache)]
-    FastAPI -->|Check Cache| Redis
-    Redis -- "Hit" --> FastAPI
-    Redis -- "Miss / Error" --> MySQL[(MySQL 8)]
-    MySQL --> FastAPI
-    FastAPI -->|Set Cache| Redis
+[Architecture](#-system-architecture) • [Benchmarks](#-load-test-results) • [Chaos Testing](#-chaos-engineering--resilience) • [Quickstart](#-quickstart-guide) • [Case Study](docs/portfolio_summary.md)
+
+</div>
+
+---
+
+## 🚀 Key Highlights
+
+| Metric | Result | Context |
+|:---|---:|:---|
+| **Leaderboard Read Latency (P50 / P95)** | **11 ms / 88 ms** | Highest-traffic endpoint (3,034 of 7,529 total requests in the load test run) |
+| **Score Write Latency (P50)** | **36 ms** | DB write + audit event + cache invalidation |
+| **Redis Outage Recovery** | **0.01 s** | Cache repopulates almost instantly after a Redis restart |
+| **MySQL Outage Recovery** | **4.09 s** | `pool_pre_ping` reconnects automatically — no redeploy needed |
+| **Fault Tolerance Under Load** | **0 Crashes** | Survived a live Redis kill/restart cycle *during* an active Locust run |
+| **Automated Chaos Suite** | **5 / 5 PASS** | Redis failure, Redis recovery, MySQL failure, MySQL recovery, combined failure-under-load |
+
+*(All figures sourced directly from `load_tests/stats_stats.csv` and `chaos_results/chaos_results.json` — see [`docs/portfolio_summary.md`](docs/portfolio_summary.md) for full methodology.)*
+
+---
+
+## 🏛 System Architecture
+
+```
+                                    CLIENT LAYER
+                   ┌──────────────────────────────────────────────┐
+                   │        Locust Load Generator (Bots)          │
+                   │        REST clients / Swagger UI (/docs)     │
+                   └──────────────────────┬───────────────────────┘
+                                          │ HTTP/JSON (Bearer JWT)
+                                          ▼
+                               APPLICATION SERVER LAYER
+                   ┌──────────────────────────────────────────────┐
+                   │                FastAPI App (uvicorn)          │
+                   │  ┌─────────────────────────────────────────┐  │
+                   │  │  Metrics Middleware (per-request timer) │  │
+                   │  └───────────────────┬─────────────────────┘  │
+                   │                      ▼                        │
+                   │  /auth  /matches  /scores  /leaderboard        │
+                   │  /health  /stats  /players/me                 │
+                   │                      │                        │
+                   │  ┌───────────────────▼─────────────────────┐  │
+                   │  │  Services → Repositories (SQLAlchemy)    │  │
+                   │  └───────────────────┬─────────────────────┘  │
+                   │           ┌──────────┼──────────┐              │
+                   │           ▼          ▼          ▼              │
+                   │       Redis      MySQL 8     /metrics          │
+                   │      (cache)     (SoR)      (Prometheus)       │
+                   └──────────────────────┬───────────────────────┘
+                                          │
+                   ┌──────────────────────┴───────────────────────┐
+                   ▼                                              ▼
+          IN-MEMORY CACHE (Redis)                     PERSISTENCE (MySQL 8)
+ ┌────────────────────────────────────┐         ┌─────────────────────────────────┐
+ │ • leaderboard (TTL 60s)            │         │ • players / matches              │
+ │ • active_players (TTL 60s)         │         │ • match_players / scores         │
+ │ • Fail-open on RedisError/ConnErr  │         │ • game_events (audit trail)      │
+ └────────────────────────────────────┘         └─────────────────────────────────┘
 ```
 
-## Features
+Full breakdown, request-lifecycle sequence diagram, and component notes:
+[`docs/architecture.md`](docs/architecture.md).
 
-- **Player Management**: Register and login using JWT.
-- **Matches**: Create, join, and leave matches.
-- **Scoring**: Update player scores within a match.
-- **Leaderboard**: View top players across all matches.
-- **Event Tracking**: Internal tracking of game events (registration, login, matches, scores).
-- **Caching Layer**: Redis caching for leaderboards and active player statistics.
-- **Structured Logging**: JSON-formatted logging for easy log aggregation with cache hit/miss statuses.
+---
 
-## Requirements
+## ⚡ Quickstart Guide
 
-- Docker
-- Docker Compose
+### One-Command Docker Compose
 
-## Quick Start
+```bash
+# Launch backend, MySQL, Redis, Prometheus, Grafana & Locust
+docker compose up --build
+```
 
-1. **Clone and enter the directory**:
-   ```bash
-   cd GamePulse
-   ```
+- **API**: `http://localhost:8000`
+- **Swagger UI**: `http://localhost:8000/docs`
+- **Health Check**: `http://localhost:8000/health`
+- **Raw Metrics**: `http://localhost:8000/metrics`
+- **Grafana Dashboard**: `http://localhost:3000` (`admin` / `admin`)
+- **Prometheus UI**: `http://localhost:9090`
+- **Locust UI**: `http://localhost:8089`
 
-2. **Start the application**:
-   ```bash
-   docker compose up --build
-   ```
-   This will start the FastAPI backend, MySQL database, and Redis cache. The database will automatically initialize using the `schema.sql` file.
+The MySQL container auto-initializes from `schema.sql` on first boot — no
+manual migration step required.
 
-3. **Verify Health**:
-   Visit [http://localhost:8000/health](http://localhost:8000/health) to ensure the service is up and connected to the database.
+### Running the Smoke Tests
 
-4. **Access the API Documentation**:
-   Visit [http://localhost:8000/docs](http://localhost:8000/docs) to access the interactive Swagger UI.
-
-## Monitoring
-
-GamePulse exports custom metrics to Prometheus, which are visualized via Grafana. You can monitor the application by visiting:
-- **Grafana Dashboard**: [http://localhost:3000](http://localhost:3000) (Login with `admin` / `admin`)
-- **Prometheus UI**: [http://localhost:9090](http://localhost:9090)
-- **Raw Metrics**: [http://localhost:8000/metrics](http://localhost:8000/metrics)
-
-## Load Testing
-
-GamePulse includes a Locust load testing suite that simulates realistic player behavior. 
-To run load tests:
-1. Ensure the `locust` service is running via Docker Compose.
-2. Visit the Locust Web UI at [http://localhost:8089](http://localhost:8089).
-3. Start the test. Test results will be automatically exported as CSV files (`stats_requests.csv`, `stats_failures.csv`, `stats_stats.csv`) in the `load_tests/` directory.
-
-## Chaos Testing
-
-GamePulse includes an automated chaos testing script to verify system resilience.
-To run chaos tests:
-1. Ensure all Docker services are running (`docker compose up -d`).
-2. Run the script: `python chaos_tests/chaos_test.py`.
-3. The script will safely stop and start containers to simulate failures.
-4. Test results will be generated in `chaos_results/` as `chaos_results.json` and `chaos_report.md`.
-
-**Expected Outcomes & Metrics:**
-- **Redis Failure**: Leaderboards gracefully fall back to MySQL. Expect lower Cache Hit Rates and potentially higher Request Latency.
-- **MySQL Failure**: Application continues running. Protected endpoints return controlled 500 errors. Expect spikes in Error Rates in Grafana.
-- **Recovery Verification**: Observe metrics returning to baseline levels after containers are restored.
-
-## Testing
-
-To run the smoke tests locally, you need a Python environment with `pytest` installed:
 ```bash
 pip install -r requirements.txt
 pytest tests/
 ```
 
-*(Note: The smoke tests use an in-memory SQLite database, so a running MySQL instance is not strictly necessary to run them).*
+Smoke tests run against an in-memory SQLite database, so a live MySQL
+instance is not required just to validate the API contract.
+
+---
+
+## 📊 Controlled Benchmark Experiments
+
+| Experiment | Focus | Core Finding | Report Link |
+|:---|:---|:---|:---|
+| **Exp 1: Concurrency Ramp Sweep** | 5 → 50 simulated players | Throughput plateaus at **~12–15 req/s**, bounded by Locust think-time, not server saturation. | [Details](docs/Experiment%20Results/experiment_results.md#1-experiment-1-concurrency-ramp-sweep) |
+| **Exp 2: Endpoint Latency Breakdown** | Per-endpoint P50/P95/P99 | Cached `GET /leaderboard` is both highest-traffic *and* fastest (**P50 = 11 ms**). | [Details](docs/Experiment%20Results/experiment_results.md#2-experiment-2-endpoint-level-latency-breakdown-steady-state) |
+| **Exp 3: Chaos-Induced Outage Impact** | Latency during MySQL restart | Sharp P95→P99 knee; **99% of requests still complete under 5s** even including the outage. | [Details](docs/Experiment%20Results/experiment_results.md#3-experiment-3-chaos-induced-outage-impact) |
+| **Exp 4: Locust Task-Mix Fidelity** | Configured vs. observed traffic shape | Observed request share tracks configured task weights to **within ~1 pt** on every task. | [Details](docs/Experiment%20Results/experiment_results.md#4-experiment-4-locust-task-mix-fidelity) |
+
+---
+
+## 📊 Load Test Results
+
+Simulated with `load_tests/locustfile.py` (register → login → weighted task
+mix: view leaderboard 40%, update score 30%, join match 15%, create match
+10%, re-auth 5%):
+
+| Endpoint | Requests | Failures | P50 | P95 |
+|:---|---:|---:|---:|---:|
+| `GET /leaderboard` | 3,034 | 272* | 11 ms | 88 ms |
+| `POST /scores` | 2,138 | 197* | 36 ms | 190 ms |
+| `POST /matches` | 789 | 78* | 31 ms | 160 ms |
+| `POST /auth/login` | 434 | 25* | 600 ms | 1,200 ms |
+| `POST /auth/register` | 50 | 0 | 310 ms | 1,300 ms |
+
+\* *Failures concentrated in a deliberately injected MySQL outage window
+during the chaos-under-load scenario — see below — not steady-state errors.*
+
+Full CSV exports: [`load_tests/stats_stats.csv`](load_tests/stats_stats.csv),
+[`stats_failures.csv`](load_tests/stats_failures.csv).
+
+---
+
+## 🛡️ Chaos Engineering & Resilience
+
+`chaos_tests/chaos_test.py` stops and restarts the Redis and MySQL containers
+mid-traffic and asserts the API stays available:
+
+```
+[Chaos Test 1] Redis container failure          ──► PASS (Leaderboard falls back to MySQL, no crash)
+[Chaos Test 2] Redis container restart          ──► PASS (Cache repopulated in 0.01s)
+[Chaos Test 3] MySQL container failure          ──► PASS (Controlled 500s, /metrics stays live)
+[Chaos Test 4] MySQL container restart          ──► PASS (Reconnected automatically in 4.09s)
+[Chaos Test 5] Redis failure during active load ──► PASS (Recovered in 0.69s under Locust traffic)
+```
+
+Full report: [`chaos_results/chaos_report.md`](chaos_results/chaos_report.md)
+· [`chaos_results/chaos_results.json`](chaos_results/chaos_results.json).
+
+Run it yourself:
+```bash
+docker compose up -d
+python chaos_tests/chaos_test.py
+```
+
+---
+
+## 📁 Repository Structure
+
+```
+├── app/                         # FastAPI application
+│   ├── api/                     # Routers (auth, matches, scores, leaderboard, health, stats)
+│   │   └── dependencies.py      # get_db, get_current_user (JWT)
+│   ├── services/                # PlayerService, MatchService, ScoreService
+│   ├── repositories/            # SQLAlchemy query layer (one file per entity)
+│   ├── models/                  # ORM models (Player, Match, MatchPlayer, Score, GameEvent)
+│   ├── schemas/                 # Pydantic request/response models
+│   ├── core/                    # config, database, redis, security, logger, metrics
+│   └── main.py                  # App factory, Prometheus middleware, exception handlers
+├── schema.sql                   # MySQL 8 schema (auto-applied on container init)
+├── tests/                       # Pytest smoke tests (in-memory SQLite)
+├── load_tests/                  # Locust load test suite + exported CSV stats
+├── chaos_tests/                 # Automated fault-injection & resilience runner
+├── chaos_results/               # Generated chaos test reports (JSON + Markdown)
+├── monitoring/                  # Grafana datasource + dashboard provisioning
+├── prometheus.yml                # Prometheus scrape config
+├── docker-compose.yml            # backend, mysql, redis, prometheus, grafana, locust
+├── Dockerfile                    # Backend container build
+├── docs/                         # Technical architecture & portfolio case studies
+│   ├── architecture.md           # Component breakdown & request lifecycle
+│   ├── database_design.md        # Schema, ERD, and indexing strategy
+│   ├── caching_and_resilience.md # Cache-aside model & chaos test analysis
+│   ├── api_protocol.md           # Full REST API reference
+│   └── portfolio_summary.md      # Interview-ready case study
+└── requirements.txt
+```
+
+---
+
+## 📄 Documentation
+
+- [`docs/architecture.md`](docs/architecture.md) — system topology, component breakdown, request lifecycle
+- [`docs/database_design.md`](docs/database_design.md) — schema, ER diagram, indexing strategy
+- [`docs/caching_and_resilience.md`](docs/caching_and_resilience.md) — cache-aside pattern & chaos test analysis
+- [`docs/api_protocol.md`](docs/api_protocol.md) — full REST API reference with examples
+- [`docs/portfolio_summary.md`](docs/portfolio_summary.md) — case study & interview talking points

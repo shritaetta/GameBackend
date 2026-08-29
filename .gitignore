@@ -11,6 +11,11 @@ data/
 prometheus_data/
 grafana_data/
 
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+
 locust/load_tests/*.csv
 
 .idea/

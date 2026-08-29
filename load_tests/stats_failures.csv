@@ -1,1 +1,103 @@
 Method,Name,Error,Occurrences,First Seen,Last Seen
+POST,/matches/358/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:26:44Z,2026-08-29T12:26:44Z
+POST,/matches/716/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:26:51Z,2026-08-29T12:26:51Z
+POST,/matches/316/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:26:46Z,2026-08-29T12:26:46Z
+POST,/matches/267/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:26:52Z,2026-08-29T12:26:52Z
+POST,/matches/677/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:26:41Z,2026-08-29T12:26:41Z
+POST,/matches/360/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:26:29Z,2026-08-29T12:26:29Z
+POST,/matches/546/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:26:51Z,2026-08-29T12:26:51Z
+POST,/matches/275/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:26:55Z,2026-08-29T12:26:55Z
+POST,/matches/319/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:26:30Z,2026-08-29T12:26:30Z
+POST,/matches/482/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:26:33Z,2026-08-29T12:26:33Z
+POST,/auth/login,"ConnectionRefusedError(111, 'Connection refused')",23,2026-08-29T12:26:26Z,2026-08-29T12:27:02Z
+POST,/matches/301/join,"ConnectionResetError(104, 'Connection reset by peer')",1,2026-08-29T12:26:24Z,2026-08-29T12:26:24Z
+POST,/matches/221/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:26:40Z,2026-08-29T12:26:40Z
+GET,/leaderboard,"ConnectionRefusedError(111, 'Connection refused')",253,2026-08-29T12:26:26Z,2026-08-29T12:27:03Z
+POST,/matches/696/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:26:26Z,2026-08-29T12:26:26Z
+POST,/matches/423/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:26:41Z,2026-08-29T12:26:41Z
+POST,/matches/387/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:27:01Z,2026-08-29T12:27:01Z
+POST,/matches/279/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:26:56Z,2026-08-29T12:26:56Z
+POST,/matches/259/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:26:50Z,2026-08-29T12:26:50Z
+POST,/matches/507/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:27:03Z,2026-08-29T12:27:03Z
+POST,/matches/248/join,"ConnectionResetError(104, 'Connection reset by peer')",1,2026-08-29T12:26:25Z,2026-08-29T12:26:25Z
+POST,/matches/275/join,"ConnectionResetError(104, 'Connection reset by peer')",1,2026-08-29T12:26:24Z,2026-08-29T12:26:24Z
+POST,/matches/240/join,"ConnectionResetError(104, 'Connection reset by peer')",1,2026-08-29T12:26:24Z,2026-08-29T12:26:24Z
+POST,/matches/533/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:26:29Z,2026-08-29T12:26:29Z
+POST,/matches/427/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:27:03Z,2026-08-29T12:27:03Z
+POST,/matches/102/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:26:40Z,2026-08-29T12:26:40Z
+POST,/matches/219/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:26:38Z,2026-08-29T12:26:38Z
+POST,/matches,RemoteDisconnected('Remote end closed connection without response'),1,2026-08-29T12:18:50Z,2026-08-29T12:18:50Z
+POST,/matches/215/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:26:59Z,2026-08-29T12:26:59Z
+POST,/matches/682/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:26:41Z,2026-08-29T12:26:41Z
+POST,/matches/43/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:26:35Z,2026-08-29T12:26:35Z
+POST,/matches/352/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:26:55Z,2026-08-29T12:26:55Z
+POST,/matches/36/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:26:32Z,2026-08-29T12:26:32Z
+POST,/matches/391/join,"ConnectionResetError(104, 'Connection reset by peer')",1,2026-08-29T12:26:25Z,2026-08-29T12:26:25Z
+POST,/matches/31/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:26:44Z,2026-08-29T12:26:44Z
+POST,/matches/107/join,"ConnectionRefusedError(111, 'Connection refused')",2,2026-08-29T12:26:47Z,2026-08-29T12:26:56Z
+POST,/matches/613/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:26:52Z,2026-08-29T12:26:52Z
+POST,/matches/105/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:26:54Z,2026-08-29T12:26:54Z
+POST,/matches/315/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:27:03Z,2026-08-29T12:27:03Z
+POST,/matches/68/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:26:43Z,2026-08-29T12:26:43Z
+POST,/matches/363/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:26:46Z,2026-08-29T12:26:46Z
+POST,/matches/374/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:26:43Z,2026-08-29T12:26:43Z
+POST,/matches/230/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:27:00Z,2026-08-29T12:27:00Z
+POST,/matches/210/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:26:31Z,2026-08-29T12:26:31Z
+POST,/matches/254/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:26:29Z,2026-08-29T12:26:29Z
+POST,/matches/46/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:26:40Z,2026-08-29T12:26:40Z
+POST,/matches/586/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:26:32Z,2026-08-29T12:26:32Z
+POST,/matches,"ConnectionRefusedError(111, 'Connection refused')",69,2026-08-29T12:26:26Z,2026-08-29T12:27:03Z
+POST,/matches/139/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:26:42Z,2026-08-29T12:26:42Z
+POST,/auth/login,"ConnectionResetError(104, 'Connection reset by peer')",2,2026-08-29T12:26:25Z,2026-08-29T12:26:25Z
+POST,/matches/536/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:26:30Z,2026-08-29T12:26:30Z
+POST,/scores,"ConnectionRefusedError(111, 'Connection refused')",181,2026-08-29T12:26:26Z,2026-08-29T12:27:03Z
+POST,/matches/516/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:26:54Z,2026-08-29T12:26:54Z
+POST,/matches/218/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:26:29Z,2026-08-29T12:26:29Z
+POST,/matches/152/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:26:42Z,2026-08-29T12:26:42Z
+POST,/matches/384/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:26:31Z,2026-08-29T12:26:31Z
+POST,/matches/151/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:26:31Z,2026-08-29T12:26:31Z
+POST,/matches/589/join,"ConnectionResetError(104, 'Connection reset by peer')",1,2026-08-29T12:26:24Z,2026-08-29T12:26:24Z
+POST,/matches/61/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:26:57Z,2026-08-29T12:26:57Z
+POST,/matches/344/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:26:27Z,2026-08-29T12:26:27Z
+POST,/matches/493/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:26:28Z,2026-08-29T12:26:28Z
+POST,/matches/648/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:26:34Z,2026-08-29T12:26:34Z
+POST,/matches/370/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:27:02Z,2026-08-29T12:27:02Z
+POST,/matches/83/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:26:42Z,2026-08-29T12:26:42Z
+POST,/matches/47/join,"ConnectionResetError(104, 'Connection reset by peer')",1,2026-08-29T12:26:25Z,2026-08-29T12:26:25Z
+POST,/matches/646/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:26:42Z,2026-08-29T12:26:42Z
+POST,/matches/419/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:26:29Z,2026-08-29T12:26:29Z
+POST,/matches/469/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:27:01Z,2026-08-29T12:27:01Z
+POST,/scores,"ConnectionResetError(104, 'Connection reset by peer')",16,2026-08-29T12:26:24Z,2026-08-29T12:26:25Z
+POST,/matches/44/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:26:44Z,2026-08-29T12:26:44Z
+POST,/matches/498/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:26:31Z,2026-08-29T12:26:31Z
+POST,/matches/169/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:26:31Z,2026-08-29T12:26:31Z
+POST,/matches/19/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:26:59Z,2026-08-29T12:26:59Z
+POST,/matches/447/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:27:03Z,2026-08-29T12:27:03Z
+POST,/matches/115/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:26:37Z,2026-08-29T12:26:37Z
+POST,/matches/18/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:26:57Z,2026-08-29T12:26:57Z
+POST,/matches/665/join,"ConnectionResetError(104, 'Connection reset by peer')",1,2026-08-29T12:26:25Z,2026-08-29T12:26:25Z
+POST,/matches/356/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:26:42Z,2026-08-29T12:26:42Z
+POST,/matches/310/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:26:41Z,2026-08-29T12:26:41Z
+POST,/matches/298/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:27:01Z,2026-08-29T12:27:01Z
+POST,/matches/541/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:26:42Z,2026-08-29T12:26:42Z
+POST,/matches/368/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:26:59Z,2026-08-29T12:26:59Z
+GET,/leaderboard,RemoteDisconnected('Remote end closed connection without response'),2,2026-08-29T12:17:19Z,2026-08-29T12:22:28Z
+POST,/matches/81/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:26:57Z,2026-08-29T12:26:57Z
+POST,/matches/497/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:26:46Z,2026-08-29T12:26:46Z
+POST,/matches/598/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:26:55Z,2026-08-29T12:26:55Z
+POST,/matches/280/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:26:48Z,2026-08-29T12:26:48Z
+POST,/matches/112/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:27:02Z,2026-08-29T12:27:02Z
+POST,/matches/265/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:26:31Z,2026-08-29T12:26:31Z
+POST,/matches/186/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:27:03Z,2026-08-29T12:27:03Z
+GET,/leaderboard,"ConnectionResetError(104, 'Connection reset by peer')",17,2026-08-29T12:18:13Z,2026-08-29T12:26:25Z
+POST,/matches/550/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:26:37Z,2026-08-29T12:26:37Z
+POST,/matches/668/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:26:50Z,2026-08-29T12:26:50Z
+POST,/matches/465/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:26:38Z,2026-08-29T12:26:38Z
+POST,/matches/326/join,"ConnectionRefusedError(111, 'Connection refused')",2,2026-08-29T12:26:38Z,2026-08-29T12:27:03Z
+POST,/matches/8/join,RemoteDisconnected('Remote end closed connection without response'),1,2026-08-29T12:17:14Z,2026-08-29T12:17:14Z
+POST,/matches,"ConnectionResetError(104, 'Connection reset by peer')",8,2026-08-29T12:26:24Z,2026-08-29T12:26:25Z
+POST,/matches/213/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:26:33Z,2026-08-29T12:26:33Z
+POST,/matches/353/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:26:41Z,2026-08-29T12:26:41Z
+POST,/matches/534/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:26:51Z,2026-08-29T12:26:51Z
+POST,/matches/225/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:26:26Z,2026-08-29T12:26:26Z
+POST,/matches/626/join,"ConnectionRefusedError(111, 'Connection refused')",1,2026-08-29T12:27:00Z,2026-08-29T12:27:00Z

@@ -1,20 +1,19 @@
-# Python
 __pycache__/
 *.pyc
+.env
 
-# Virtual environment
 .venv/
 venv/
 
-# Environment variables
-.env
+.mysql/
+data/
 
-# IDE
-.vscode/
+prometheus_data/
+grafana_data/
+
+locust/load_tests/*.csv
+
 .idea/
+.vscode/
 
-# OS
-.DS_Store
-
-# Logs
 *.log

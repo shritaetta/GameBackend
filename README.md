@@ -66,6 +66,20 @@ To run load tests:
 2. Visit the Locust Web UI at [http://localhost:8089](http://localhost:8089).
 3. Start the test. Test results will be automatically exported as CSV files (`stats_requests.csv`, `stats_failures.csv`, `stats_stats.csv`) in the `load_tests/` directory.
 
+## Chaos Testing
+
+GamePulse includes an automated chaos testing script to verify system resilience.
+To run chaos tests:
+1. Ensure all Docker services are running (`docker compose up -d`).
+2. Run the script: `python chaos_tests/chaos_test.py`.
+3. The script will safely stop and start containers to simulate failures.
+4. Test results will be generated in `chaos_results/` as `chaos_results.json` and `chaos_report.md`.
+
+**Expected Outcomes & Metrics:**
+- **Redis Failure**: Leaderboards gracefully fall back to MySQL. Expect lower Cache Hit Rates and potentially higher Request Latency.
+- **MySQL Failure**: Application continues running. Protected endpoints return controlled 500 errors. Expect spikes in Error Rates in Grafana.
+- **Recovery Verification**: Observe metrics returning to baseline levels after containers are restored.
+
 ## Testing
 
 To run the smoke tests locally, you need a Python environment with `pytest` installed:

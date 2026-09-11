@@ -1,0 +1,71 @@
+version: '3.8'
+
+services:
+  backend:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=mysql+pymysql://gamepulse_user:gamepulse_password@mysql:3306/gamepulse
+      - SECRET_KEY=09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7
+      - REDIS_URL=redis://redis:6379/0
+    depends_on:
+      redis:
+        condition: service_started
+      mysql:
+        condition: service_healthy
+    volumes:
+      - ./app:/app/app
+
+  mysql:
+    image: mysql:8
+    environment:
+      - MYSQL_DATABASE=gamepulse
+      - MYSQL_USER=gamepulse_user
+      - MYSQL_PASSWORD=gamepulse_password
+      - MYSQL_ROOT_PASSWORD=root_password
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      timeout: 20s
+      retries: 10
+
+  redis:
+    image: redis:7
+    ports:
+      - "6379:6379"
+
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    depends_on:
+      - backend
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - ./monitoring/datasources:/etc/grafana/provisioning/datasources
+      - ./monitoring/dashboards:/etc/grafana/provisioning/dashboards
+    depends_on:
+      - prometheus
+
+  locust:
+    image: locustio/locust
+    ports:
+      - "8089:8089"
+    volumes:
+      - ./load_tests:/mnt/locust
+    command: -f /mnt/locust/locustfile.py --host=http://backend:8000 --csv=/mnt/locust/stats
+    depends_on:
+      - backend

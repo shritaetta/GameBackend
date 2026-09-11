@@ -1,0 +1,40 @@
+[
+    {
+        "scenario": "Redis container failure",
+        "start_time": "2026-08-29T18:10:21.699652",
+        "end_time": "2026-08-29T18:10:34.964175",
+        "result": "PASS",
+        "details": "Leaderboard fallback to MySQL successful. No crash."
+    },
+    {
+        "scenario": "Redis container restart",
+        "start_time": "2026-08-29T18:10:34.964175",
+        "end_time": "2026-08-29T18:10:35.420297",
+        "result": "PASS",
+        "details": "Redis successfully recovered and populated cache.",
+        "recovery_time": 0.01
+    },
+    {
+        "scenario": "MySQL container failure",
+        "start_time": "2026-08-29T18:10:35.420297",
+        "end_time": "2026-08-29T18:10:43.216863",
+        "result": "PASS",
+        "details": "Controlled errors verified. Metrics active."
+    },
+    {
+        "scenario": "MySQL container restart",
+        "start_time": "2026-08-29T18:10:43.218145",
+        "end_time": "2026-08-29T18:10:48.179069",
+        "result": "PASS",
+        "details": "MySQL recovered and application reconnected successfully.",
+        "recovery_time": 4.09
+    },
+    {
+        "scenario": "Redis failure during active load test",
+        "start_time": "2026-08-29T18:10:48.179702",
+        "end_time": "2026-08-29T18:11:09.856104",
+        "result": "PASS",
+        "details": "Survived Redis failure/recovery under active Locust load.",
+        "recovery_time": 0.69
+    }
+]
